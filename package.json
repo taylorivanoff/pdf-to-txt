@@ -1,0 +1,19 @@
+{
+  "name": "pdf-to-txt",
+  "version": "1.0.0",
+  "description": "CLI to extract text from PDF files into .txt",
+  "type": "module",
+  "bin": {
+    "pdf-to-txt": "./src/cli.js"
+  },
+  "scripts": {
+    "start": "node src/cli.js",
+    "convert": "node src/cli.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "unpdf": "^1.8.0"
+  }
+}
