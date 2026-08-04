@@ -5,9 +5,9 @@
 [![License](https://img.shields.io/github/license/taylorivanoff/pdf-to-txt)](LICENSE)
 [![Buy Me A Coffee](https://img.shields.io/badge/Buy%20Me%20A%20Coffee-support-yellow?style=flat&logo=buy-me-a-coffee)](https://buymeacoffee.com/taylorivanoff)
 
-**PDF to TXT** is a free, cross-platform **Electron desktop app** (with a CLI) that extracts text from PDF files into plain `.txt`. Queue files or folders, preview extraction, and batch-convert — useful for indexing, search, LLM pipelines, and document workflows.
+**PDF to TXT** is a free, cross-platform **Electron desktop app** (with a CLI) that extracts text from PDF files into plain `.txt`. Queue files or folders, preview extraction, and batch-convert useful for indexing, search, LLM pipelines, and document workflows.
 
-Text-based PDFs only — scanned or image-only PDFs need OCR.
+Text-based PDFs only - scanned or image-only PDFs need OCR.
 
 ## Features
 
@@ -29,7 +29,7 @@ Text-based PDFs only — scanned or image-only PDFs need OCR.
 ### macOS
 
 1. Download the `.dmg` from [Releases](https://github.com/taylorivanoff/pdf-to-txt/releases) and drag **PDF to TXT** to Applications
-2. macOS may say the app is “damaged” — that is Gatekeeper blocking an unsigned download, not a bad file. Clear quarantine, then open:
+2. macOS may say the app is “damaged” - that is Gatekeeper blocking an unsigned download, not a bad file. Clear quarantine, then open:
 
 ```bash
 xattr -cr "/Applications/PDF to TXT.app"
