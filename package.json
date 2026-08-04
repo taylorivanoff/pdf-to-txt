@@ -1,19 +1,78 @@
 {
   "name": "pdf-to-txt",
+  "description": "Desktop app and CLI to extract text from PDF files into .txt",
+  "author": {
+    "name": "Taylor Ivanoff"
+  },
   "version": "1.0.0",
-  "description": "CLI to extract text from PDF files into .txt",
+  "repository": "https://github.com/taylorivanoff/pdf-to-txt",
   "type": "module",
+  "main": "main/main.js",
   "bin": {
     "pdf-to-txt": "./src/cli.js"
   },
   "scripts": {
-    "start": "node src/cli.js",
-    "convert": "node src/cli.js"
+    "start": "electron .",
+    "cli": "node src/cli.js",
+    "convert": "node src/cli.js",
+    "release": "electron-builder --publish=never"
+  },
+  "build": {
+    "appId": "io.github.taylorivanoff.pdf-to-txt",
+    "productName": "PDF to TXT",
+    "files": [
+      "main/**/*",
+      "preload/**/*",
+      "renderer/**/*",
+      "resources/**/*",
+      "src/**/*",
+      "package.json"
+    ],
+    "directories": {
+      "output": "dist"
+    },
+    "win": {
+      "icon": "resources/icon.png",
+      "target": "nsis",
+      "artifactName": "${name}-Setup-${version}.${ext}"
+    },
+    "mac": {
+      "icon": "resources/icon.png",
+      "target": [
+        "dmg",
+        "zip"
+      ],
+      "category": "public.app-category.utilities"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "include": "installer.nsh",
+      "deleteAppDataOnUninstall": true
+    },
+    "publish": {
+      "provider": "generic",
+      "url": "https://github.com/taylorivanoff/pdf-to-txt/releases/latest/download"
+    },
+    "linux": {
+      "icon": "resources/icon.png",
+      "target": [
+        "AppImage",
+        "deb"
+      ],
+      "category": "Utility"
+    }
   },
   "engines": {
     "node": ">=18"
   },
   "dependencies": {
+    "electron-store": "^8.2.0",
+    "electron-updater": "^6.1.8",
     "unpdf": "^1.8.0"
+  },
+  "devDependencies": {
+    "electron": "^43.2.0",
+    "electron-builder": "^26.15.3"
   }
 }
