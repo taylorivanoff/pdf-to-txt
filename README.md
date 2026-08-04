@@ -3,7 +3,6 @@
 [![Release](https://img.shields.io/github/v/release/taylorivanoff/pdf-to-txt)](https://github.com/taylorivanoff/pdf-to-txt/releases)
 [![Downloads](https://img.shields.io/github/downloads/taylorivanoff/pdf-to-txt/total)](https://github.com/taylorivanoff/pdf-to-txt/releases)
 [![License](https://img.shields.io/github/license/taylorivanoff/pdf-to-txt)](LICENSE)
-[![Buy Me A Coffee](https://img.shields.io/badge/Buy%20Me%20A%20Coffee-support-yellow?style=flat&logo=buy-me-a-coffee)](https://buymeacoffee.com/taylorivanoff)
 
 **PDF to TXT** is a free, cross-platform **Electron desktop app** (with a CLI) that extracts text from PDF files into plain `.txt`. Queue files or folders, preview extraction, and batch-convert - useful for indexing, search, LLM pipelines, and document workflows.
 
