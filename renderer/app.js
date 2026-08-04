@@ -128,7 +128,7 @@
     if (item) item.pages = result.pages;
     previewEl.textContent = result.text?.trim()
       ? result.text
-      : '(No extractable text — this may be a scanned PDF.)';
+      : '(No extractable text - this may be a scanned PDF.)';
     renderQueue();
   }
 

@@ -11,6 +11,7 @@ import updater from 'electron-updater';
 const { autoUpdater } = updater;
 import path from 'node:path';
 import fs from 'node:fs';
+import { createRequire } from 'node:module';
 import { fileURLToPath } from 'node:url';
 import * as store from './store.js';
 import {
@@ -26,9 +27,12 @@ import {
   extractPdf
 } from '../src/extract.js';
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const require = createRequire(import.meta.url);
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 const APP_NAME = 'PDF to TXT';
 const START_MINIMIZED_ARG = '--start-minimised';
+const UPDATE_CHECK_INTERVAL_MS = 24 * 60 * 60 * 1000;
 
 let mainWindow = null;
 let splashWindow = null;
@@ -42,6 +46,17 @@ if (!gotTheLock) {
   app.quit();
 } else {
   app.on('second-instance', () => showWindow());
+
+  if (!app.isPackaged) {
+    try {
+      require('electron-reloader')({ filename: __filename, children: [] }, {
+        watchRenderer: true,
+        ignore: ['**/node_modules/**', '**/dist/**', '**/.git/**', '**/bun.lock', '**/package-lock.json']
+      });
+    } catch {
+      // electron-reloader is a devDependency; ignore if missing.
+    }
+  }
 }
 
 const MIN_WIDTH = 420;
@@ -348,7 +363,7 @@ function setupAutoUpdater() {
     }).then(({ response }) => {
       if (response === 0) {
         isQuitting = true;
-        autoUpdater.quitAndInstall(false, true);
+        autoUpdater.quitAndInstall(true, true);
       }
     });
   });
@@ -366,6 +381,7 @@ function setupAutoUpdater() {
   });
 
   checkForUpdates(false);
+  setInterval(() => checkForUpdates(false), UPDATE_CHECK_INTERVAL_MS);
 }
 
 function resolveOutDir(requested) {
