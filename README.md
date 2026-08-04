@@ -5,7 +5,7 @@
 [![License](https://img.shields.io/github/license/taylorivanoff/pdf-to-txt)](LICENSE)
 [![Buy Me A Coffee](https://img.shields.io/badge/Buy%20Me%20A%20Coffee-support-yellow?style=flat&logo=buy-me-a-coffee)](https://buymeacoffee.com/taylorivanoff)
 
-**PDF to TXT** is a free, cross-platform **Electron desktop app** (with a CLI) that extracts text from PDF files into plain `.txt`. Queue files or folders, preview extraction, and batch-convert useful for indexing, search, LLM pipelines, and document workflows.
+**PDF to TXT** is a free, cross-platform **Electron desktop app** (with a CLI) that extracts text from PDF files into plain `.txt`. Queue files or folders, preview extraction, and batch-convert - useful for indexing, search, LLM pipelines, and document workflows.
 
 Text-based PDFs only - scanned or image-only PDFs need OCR.
 
@@ -21,7 +21,7 @@ Text-based PDFs only - scanned or image-only PDFs need OCR.
 
 ## Installation
 
-### Windows / Linux
+### Windows
 
 1. Download the latest installer from [Releases](https://github.com/taylorivanoff/pdf-to-txt/releases)
 2. Run the installer and follow the prompts
@@ -61,7 +61,7 @@ bun run release
 
 ### Releasing
 
-Bump the `version` in `package.json` and push to `master`. The GitHub Actions workflow builds Windows, macOS, and Linux installers, uploads updater metadata, and creates a GitHub Release.
+Bump the `version` in `package.json` and push to `master`. The GitHub Actions workflow builds Windows and macOS installers, uploads updater metadata, and creates a GitHub Release.
 
 Optional repo secrets for signed builds:
 
@@ -91,3 +91,4 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 ## License
 
 MIT
+
