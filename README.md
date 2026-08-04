@@ -1,15 +1,15 @@
-# pdf-to-txt — PDF to Text Converter (Node.js CLI)
+# pdf-to-txt - PDF to Text Converter (Node.js CLI)
 
-Extract text from PDF files to plain `.txt` with a simple **Node.js command-line tool**. Convert a single PDF or batch-process an entire folder — useful for indexing, search, LLM pipelines, and document workflows.
+Extract text from PDF files to plain `.txt` with a simple **Node.js command-line tool**. Convert a single PDF or batch-process an entire folder - useful for indexing, search, LLM pipelines, and document workflows.
 
-Text-based PDFs only — scanned or image-only PDFs need OCR.
+Text-based PDFs only - scanned or image-only PDFs need OCR.
 
 ## Features
 
 - Convert one PDF or a whole directory to `.txt`
 - Custom output path (`-o` / `--out`)
 - Print extracted text to stdout (`--stdout`)
-- Zero GUI — scriptable for automation and CI
+- Zero GUI - scriptable for automation and CI
 
 ## Setup
 
