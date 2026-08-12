@@ -6,3 +6,5 @@ Thumbs.db
 input/
 output/
 .release-staging/
+src-tauri/target/
+src-tauri/gen/
