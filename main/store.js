@@ -24,6 +24,8 @@ function clamp(value, min, max, fallback) {
   return Math.min(max, Math.max(min, n));
 }
 
+export const prefsStore = store;
+
 export function getSettings() {
   return {
     opacity: clamp(store.get('opacity', 0.94), 0.35, 1, 0.94),
