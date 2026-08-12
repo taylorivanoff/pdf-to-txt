@@ -9,7 +9,7 @@ use parking_lot::Mutex;
 use serde_json::json;
 use tauri_tray_base::{
     apply_window_settings, install_state, set_on_before_quit, setup_tray, sync_autostart,
-    was_launched_minimised, TrayBaseOptions, TraySetupOptions,
+    TrayBaseOptions, TraySetupOptions,
 };
 
 pub struct AppRuntime {
@@ -69,10 +69,6 @@ pub fn run() {
                 cancelled_for_quit.store(true, Ordering::SeqCst);
                 host_for_quit.lock().shutdown();
             });
-
-            if was_launched_minimised() {
-                tauri_tray_base::hide_main(app.handle());
-            }
 
             Ok(())
         })
