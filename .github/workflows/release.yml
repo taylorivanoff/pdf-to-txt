@@ -130,6 +130,42 @@ jobs:
           else
             echo "TAURI_SIGNING_PRIVATE_KEY present — updater artifacts enabled"
           fi
+      # Prefetch NSIS toolchain with retries — GitHub download flakes cause
+      # `io: Peer disconnected` during `tauri build --bundles nsis`.
+      - name: Prefetch NSIS tools
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $tauri = Join-Path $env:LOCALAPPDATA 'tauri'
+          $nsis = Join-Path $tauri 'NSIS'
+          $zip = Join-Path $tauri 'nsis-3.11.zip'
+          $dllDir = Join-Path $nsis 'Plugins\x86-unicode\additional'
+          $dll = Join-Path $dllDir 'nsis_tauri_utils.dll'
+          New-Item -ItemType Directory -Force -Path $tauri | Out-Null
+          function Get-WithRetry([string]$Url, [string]$OutFile) {
+            for ($i = 1; $i -le 5; $i++) {
+              try {
+                Write-Host "Download attempt $i : $Url"
+                curl.exe -fsSL --retry 5 --retry-all-errors --retry-delay 2 -o $OutFile $Url
+                if ((Test-Path $OutFile) -and ((Get-Item $OutFile).Length -gt 0)) { return }
+              } catch {
+                Write-Warning $_
+              }
+              Start-Sleep -Seconds (2 * $i)
+            }
+            throw "Failed to download $Url"
+          }
+          if (-not (Test-Path (Join-Path $nsis 'makensis.exe'))) {
+            Get-WithRetry 'https://github.com/tauri-apps/binary-releases/releases/download/nsis-3.11/nsis-3.11.zip' $zip
+            Expand-Archive -Path $zip -DestinationPath $tauri -Force
+            if (Test-Path $nsis) { Remove-Item -Recurse -Force $nsis }
+            Rename-Item (Join-Path $tauri 'nsis-3.11') 'NSIS'
+          }
+          New-Item -ItemType Directory -Force -Path $dllDir | Out-Null
+          if (-not (Test-Path $dll)) {
+            Get-WithRetry 'https://github.com/tauri-apps/nsis-tauri-utils/releases/download/nsis_tauri_utils-v0.5.3/nsis_tauri_utils.dll' $dll
+          }
       - uses: tauri-apps/tauri-action@v0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
