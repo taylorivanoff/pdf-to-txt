@@ -4,7 +4,7 @@
 [![Downloads](https://img.shields.io/github/downloads/taylorivanoff/pdf-to-txt/total)](https://github.com/taylorivanoff/pdf-to-txt/releases)
 [![License](https://img.shields.io/github/license/taylorivanoff/pdf-to-txt)](LICENSE)
 
-**PDF to TXT** is a free, cross-platform **Electron desktop app** (with a CLI) that extracts text from PDF files into plain `.txt`. Queue files or folders, preview extraction, and batch-convert - useful for indexing, search, LLM pipelines, and document workflows.
+**PDF to TXT** is a free, cross-platform **Tauri desktop app** (with a CLI) that extracts text from PDF files into plain `.txt`. Queue files or folders, preview extraction, and batch-convert - useful for indexing, search, LLM pipelines, and document workflows.
 
 Text-based PDFs only - scanned or image-only PDFs need OCR.
 
@@ -22,8 +22,8 @@ Text-based PDFs only - scanned or image-only PDFs need OCR.
 
 ### Windows
 
-1. Download the latest installer from [Releases](https://github.com/taylorivanoff/pdf-to-txt/releases)
-2. Run the installer and follow the prompts
+1. Download the latest `.exe` installer from [Releases](https://github.com/taylorivanoff/pdf-to-txt/releases)
+2. Run the installer (WebView2 Runtime is used if already installed; otherwise the bootstrapper downloads it)
 
 ### macOS
 
@@ -38,6 +38,8 @@ open "/Applications/PDF to TXT.app"
 Or right-click the app → **Open** → **Open**.
 
 ## Development
+
+Requires Rust, Bun, and (on Windows) WebView2. Sibling crate [`tauri-tray-base`](https://github.com/taylorivanoff/tauri-tray-base) must sit next to this repo (e.g. `Projects/tauri-tray-base`).
 
 ```bash
 bun install
@@ -58,14 +60,16 @@ bun run cli report.pdf --stdout
 bun run release
 ```
 
+Installer output: `src-tauri/target/release/bundle/nsis/` (Windows) or `…/bundle/dmg/` (macOS).
+
 ### Releasing
 
-Bump the `version` in `package.json` and push to `master`. The GitHub Actions workflow builds Windows and macOS installers, uploads updater metadata, and creates a GitHub Release.
+Bump the `version` in `package.json` (and matching `src-tauri/tauri.conf.json` / `Cargo.toml`) and push to `master`. The GitHub Actions workflow builds Windows and macOS installers, uploads updater metadata, and creates a GitHub Release.
 
-Optional repo secrets for signed builds:
+Optional repo secrets for updater signing:
 
-- `WIN_CSC_LINK` / `WIN_CSC_KEY_PASSWORD` (Windows)
-- `CSC_LINK` / `CSC_KEY_PASSWORD` plus Apple notarization env vars (macOS Developer ID)
+- `TAURI_SIGNING_PRIVATE_KEY`
+- `TAURI_SIGNING_PRIVATE_KEY_PASSWORD`
 
 ## Usage
 
@@ -81,7 +85,7 @@ Optional repo secrets for signed builds:
 
 ## Keywords
 
-PDF to text, PDF text extraction, convert PDF to TXT, batch PDF converter, Electron PDF app, desktop PDF extractor
+PDF to text, PDF text extraction, convert PDF to TXT, batch PDF converter, Tauri PDF app, desktop PDF extractor
 
 ## Contributing
 
@@ -90,4 +94,3 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 ## License
 
 MIT
-
