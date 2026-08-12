@@ -3,6 +3,15 @@ import path from 'node:path';
 import fs from 'node:fs';
 import { createRequire } from 'node:module';
 import { fileURLToPath } from 'node:url';
+
+const require = createRequire(import.meta.url);
+const { configureAppIsolation, run } = require('electron-tray-base');
+
+configureAppIsolation({
+  appId: 'io.github.taylorivanoff.pdf-to-txt',
+  appName: 'PDF to TXT'
+});
+
 import * as store from './store.js';
 import {
   collectPdfs,
@@ -10,9 +19,6 @@ import {
   defaultOutPath,
   extractPdf
 } from '../src/extract.js';
-
-const require = createRequire(import.meta.url);
-const { run } = require('electron-tray-base');
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const APP_NAME = 'PDF to TXT';

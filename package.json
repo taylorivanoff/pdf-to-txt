@@ -4,7 +4,7 @@
   "author": {
     "name": "Taylor Ivanoff"
   },
-  "version": "1.0.8",
+  "version": "1.0.9",
   "repository": "https://github.com/taylorivanoff/pdf-to-txt",
   "type": "module",
   "main": "main/main.js",
@@ -16,7 +16,10 @@
     "cli": "node src/cli.js",
     "convert": "node src/cli.js",
     "bump": "node scripts/bump-version.js",
-    "release": "electron-builder --publish=never"
+    "release": "node scripts/minify-release.js && electron-builder --project .release-staging --publish=never",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "minify:release": "node scripts/minify-release.js"
   },
   "build": {
     "appId": "io.github.taylorivanoff.pdf-to-txt",
@@ -56,7 +59,8 @@
     "publish": {
       "provider": "generic",
       "url": "https://github.com/taylorivanoff/pdf-to-txt/releases/latest/download"
-    }
+    },
+    "compression": "maximum"
   },
   "engines": {
     "node": ">=18"
@@ -70,6 +74,10 @@
   "devDependencies": {
     "electron": "^43.2.0",
     "electron-builder": "^26.15.3",
-    "electron-reloader": "^1.2.3"
+    "electron-reloader": "^1.2.3",
+    "eslint": "^9.39.5",
+    "@eslint/js": "^9.39.5",
+    "globals": "^16.0.0",
+    "esbuild": "^0.25.0"
   }
 }
