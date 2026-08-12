@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * Stage a minified copy of the app for electron-builder.
- * Run from repo root: node scripts/minify-release.js
+ * Run from repo root: node scripts/minify-release.cjs
  * Then: electron-builder --project .release-staging ...
  */
 
@@ -86,6 +86,47 @@ async function minifyCss(file) {
   fs.writeFileSync(file, result.code);
 }
 
+function stagingPath(relativePath) {
+  return path.join(STAGING, relativePath.replace(/^\.\//, ''));
+}
+
+function getElectronVersion(root, pkg) {
+  try {
+    const electronPkg = JSON.parse(
+      fs.readFileSync(path.join(root, 'node_modules', 'electron', 'package.json'), 'utf8')
+    );
+    return electronPkg.version;
+  } catch {
+    const raw = pkg.devDependencies?.electron || pkg.dependencies?.electron || '';
+    const match = String(raw).match(/(\d+\.\d+\.\d+)/);
+    return match?.[1];
+  }
+}
+
+function fixDependencies(deps, root) {
+  if (!deps) return deps;
+  const next = { ...deps };
+  for (const [name, spec] of Object.entries(next)) {
+    if (typeof spec === 'string' && spec.startsWith('file:')) {
+      const srcPath = path.resolve(root, spec.slice('file:'.length));
+      next[name] = `file:${srcPath}`;
+    }
+  }
+  return next;
+}
+
+function fixBuildPaths(build) {
+  if (!build) return build;
+  const next = { ...build };
+  if (typeof next.afterPack === 'string' && next.afterPack.startsWith('.')) {
+    next.afterPack = stagingPath(next.afterPack);
+  }
+  if (next.nsis?.include?.startsWith('.')) {
+    next.nsis = { ...next.nsis, include: stagingPath(next.nsis.include) };
+  }
+  return next;
+}
+
 async function main() {
   const pkgPath = path.join(ROOT, 'package.json');
   const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf8'));
@@ -99,14 +140,17 @@ async function main() {
   }
 
   const stagingPkg = { ...pkg, devDependencies: undefined };
-  stagingPkg.build = {
+  stagingPkg.dependencies = fixDependencies(stagingPkg.dependencies, ROOT);
+  const electronVersion = getElectronVersion(ROOT, pkg);
+  stagingPkg.build = fixBuildPaths({
     ...stagingPkg.build,
     compression: 'maximum',
+    ...(electronVersion ? { electronVersion } : {}),
     directories: {
       ...stagingPkg.build?.directories,
       output: '../dist',
     },
-  };
+  });
   fs.writeFileSync(path.join(STAGING, 'package.json'), JSON.stringify(stagingPkg, null, 2) + '\n');
 
   const pkgType = pkg.type || 'commonjs';

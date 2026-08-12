@@ -5,7 +5,8 @@ import { createRequire } from 'node:module';
 import { fileURLToPath } from 'node:url';
 
 const require = createRequire(import.meta.url);
-const { configureAppIsolation, run } = require('electron-tray-base');
+const loadElectronTrayBase = require('./load-electron-tray-base');
+const { configureAppIsolation, run } = loadElectronTrayBase();
 
 configureAppIsolation({
   appId: 'io.github.taylorivanoff.pdf-to-txt',
