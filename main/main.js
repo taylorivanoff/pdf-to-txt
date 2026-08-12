@@ -47,14 +47,13 @@ run({
     onBeforeQuit: () => {
       convertCancelled = true;
     },
+    getAppState: () => ({
+      settings: store.getSettings(),
+      platform: process.platform,
+      version: app.getVersion(),
+      dark: nativeTheme.shouldUseDarkColors
+    }),
     registerIpc: ({ sendToRenderer, getMainWindow }) => {
-      ipcMain.handle('app:getState', () => ({
-        settings: store.getSettings(),
-        platform: process.platform,
-        version: app.getVersion(),
-        dark: nativeTheme.shouldUseDarkColors
-      }));
-
       ipcMain.handle('dialog:pickPdfs', async () => {
         const result = await dialog.showOpenDialog(getMainWindow(), {
           title: 'Choose PDF files',
