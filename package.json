@@ -21,13 +21,18 @@
     "cli": "node src/cli.js",
     "convert": "node src/cli.js",
     "lint": "eslint .",
-    "lint:fix": "eslint . --fix"
+    "lint:fix": "eslint . --fix",
+    "postinstall": "node scripts/sync-shared-styles.cjs",
+    "sync:styles": "node scripts/sync-shared-styles.cjs",
+    "predev": "node scripts/sync-shared-styles.cjs",
+    "prebuild": "node scripts/sync-shared-styles.cjs"
   },
   "engines": {
     "node": ">=18"
   },
   "dependencies": {
-    "unpdf": "^1.8.0"
+    "unpdf": "^1.8.0",
+    "@taylorivanoff/shared-styles": "file:../shared-styles"
   },
   "devDependencies": {
     "@tauri-apps/cli": "^2",

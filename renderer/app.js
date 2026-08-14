@@ -317,6 +317,9 @@
 
   api.getState().then((state) => {
     document.body.classList.add(`platform-${state.platform}`);
+    if (globalThis.tauriTrayBridge?.bindWindowControls) {
+      globalThis.tauriTrayBridge.bindWindowControls(document);
+    }
     if (state.dark) document.body.classList.add('dark');
     applySettings(state.settings || {});
     settingsMeta.textContent = `PDF to TXT v${state.version}`;
