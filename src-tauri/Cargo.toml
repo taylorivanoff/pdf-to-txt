@@ -1,6 +1,6 @@
 [package]
 name = "pdf-to-txt"
-version = "1.0.18"
+version = "1.0.19"
 description = "Desktop app and CLI to extract text from PDF files into .txt"
 authors = ["Taylor Ivanoff"]
 edition = "2021"
